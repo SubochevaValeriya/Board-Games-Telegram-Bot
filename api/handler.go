@@ -15,8 +15,8 @@ import (
 //	}
 //}
 
-func Repeater(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Hello")
+func Handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 
 	//defer r.Body.Close()
 	//
