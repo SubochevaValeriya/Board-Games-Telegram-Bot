@@ -1,44 +1,47 @@
 package handler
 
 import (
-	"fmt"
+	"encoding/json"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"io/ioutil"
+	"log"
 	"net/http"
 )
 
-//var bot *tgbotapi.BotAPI
-//
-//func init() {
-//	var err error
-//	bot, err = tgbotapi.NewBotAPI("5501151328:AAFVVneFN6O4SLihdwM3qdOTxHmY8mtvNtQ")
-//	if err != nil {
-//		log.Panic(err)
-//	}
-//}
+var bot *tgbotapi.BotAPI
+
+func init() {
+	var err error
+	bot, err = tgbotapi.NewBotAPI("5501151328:AAFVVneFN6O4SLihdwM3qdOTxHmY8mtvNtQ")
+	if err != nil {
+		log.Panic(err)
+	}
+}
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
+	//fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 
-	//defer r.Body.Close()
-	//
-	//body, _ := ioutil.ReadAll(r.Body)
-	//
-	//var update tgbotapi.Update
-	//
-	//err := json.Unmarshal(body, &update)
-	//if err != nil {
-	//	log.Println(err)
-	//	return
-	//}
-	//
-	//if update.Message.Text != "" {
-	//	log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-	//
-	//	msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
-	//	_, err := bot.Send(msg)
-	//	if err != nil {
-	//		log.Println(err)
-	//	}
-	//}
+	defer r.Body.Close()
+
+	body, _ := ioutil.ReadAll(r.Body)
+
+	var update tgbotapi.Update
+
+	err := json.Unmarshal(body, &update)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	if update.Message.Text != "" {
+		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+		_, err := bot.Send(msg)
+		if err != nil {
+			log.Println(err)
+		}
+	}
 }
 
 //func t(w http.ResponseWriter, r *http.Request) {
