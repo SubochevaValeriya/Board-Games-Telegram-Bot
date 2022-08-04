@@ -1,13 +1,29 @@
-package main
+package handler
 
 import (
 	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"net/http"
 	"net/url"
 	"pwd/internal"
 )
 
-func main() {
+//func Handler(w http.ResponseWriter, r *http.Request) {
+//	defer r.Body.Close()
+//	body, _ := io.ReadAll(r.Body)
+//	var update tgbotapi.Update
+//	if err := json.Unmarshal(body, &update); err != nil {
+//		log.Fatal("Error en el update →", err)
+//	}
+//	log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+//
+//	msg, _ := json.Marshal(data)
+//	log.Printf("Response %s", string(msg))
+//	w.Header().Add("Content-Type", "application/json")
+//	fmt.Fprintf(w, string(msg))
+//}
+
+func Handler(w http.ResponseWriter, r *http.Request) {
 	//	token := mustToken()
 
 	//bot, err := tgbotapi.NewBotAPI(os.Getenv("TELEGRAM_APITOKEN"))
@@ -108,15 +124,3 @@ func main() {
 		}
 	}
 }
-
-//func mustToken() string {
-//	token := flag.String("botToken", "", "token for access internal Board Game bot")
-//
-//	flag.Parse()
-//
-//	if *token == "" {
-//		log.Fatal("token is not specified")
-//	}
-//
-//	return *token
-//}
