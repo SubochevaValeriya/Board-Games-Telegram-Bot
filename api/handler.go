@@ -11,30 +11,38 @@ import (
 	"pwd/internal"
 )
 
-type Response struct {
-	Msg    interface{}
-	Method string
-	ChatID int64
+var bot *tgbotapi.BotAPI
+
+func init() {
+	var err error
+	bot, err = tgbotapi.NewBotAPI("5501151328:AAFVVneFN6O4SLihdwM3qdOTxHmY8mtvNtQ"))
+	if err != nil {
+		log.Panic(err)
+	}
 }
 
-func Handler(w http.ResponseWriter, r *http.Request) {
-	bot, _ := tgbotapi.NewBotAPI("5501151328:AAFVVneFN6O4SLihdwM3qdOTxHmY8mtvNtQ")
-	bot.Debug = true
+func Repeater(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+
 	body, _ := ioutil.ReadAll(r.Body)
+
 	var update tgbotapi.Update
-	if err := json.Unmarshal(body, &update); err != nil {
-		log.Fatal("Error en el update →", err)
+
+	err := json.Unmarshal(body, &update)
+	if err != nil {
+		log.Println(err)
+		return
 	}
 
-	data := Response{Msg: "TEXT",
-		Method: "sendMessage",
-		ChatID: update.Message.Chat.ID}
+	if update.Message.Text != "" {
+		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-	msg, _ := json.Marshal(data)
-	log.Printf("Response %s", string(msg))
-	w.Header().Add("Content-Type", "application/json")
-	fmt.Fprintf(w, string(msg))
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+		_, err := bot.Send(msg)
+		if err != nil {
+			log.Println(err)
+		}
+	}
 }
 
 func t(w http.ResponseWriter, r *http.Request) {
