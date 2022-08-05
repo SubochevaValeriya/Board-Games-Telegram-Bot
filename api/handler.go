@@ -151,7 +151,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 //		//text :=
 //		//"https://www.google.com/search?q=" + update.Message.Text
 //
-//		gameInfo := internal.GameInfo{
+//		gameInfo := telegram.GameInfo{
 //			Name:        update.Message.Text,
 //			TeseraLink:  url.URL{},
 //			VkLinkBNI:   url.URL{},
@@ -166,9 +166,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 //		gameInfo.AllLinks(gameInfo.Name)
 //		fmt.Println(gameInfo)
 //		//gameInfo.TeseraLinkM(gameInfo.Name)
-//		//internal.F()
+//		//telegram.F()
 //
-//		//text, _ := internal.GoogleLink(update.Message.Text)
+//		//text, _ := telegram.GoogleLink(update.Message.Text)
 //		//googleLink := "[Поиск игры в Google]" + "(" + gameInfo.GoogleLink.String() + ")" + "\n"
 //		//teseraLink := "[Страница на Тесере]" + "(" + gameInfo.TeseraLink.String() + ")" + "\n"
 //		//	fmt.Println(gameInfo.YoutubeLink.String())

@@ -3,6 +3,7 @@ package internal
 import (
 	"github.com/PuerkitoBio/goquery"
 	"net/http"
+	"strings"
 )
 import "log"
 import "fmt"
@@ -24,6 +25,18 @@ func (t *InfoFromTesera) TeseraParsing(webUrl string) {
 		log.Fatalln(err)
 	}
 
+	document.Find("title").Each(func(index int, selector *goquery.Selection) {
+		t.Name = strings.Replace(selector.Text(), "| Tesera", "", -1)
+	})
+
+	document.Find(".raw_text_output").Each(func(index int, selector *goquery.Selection) {
+		t.Description = strings.TrimSpace(selector.Text())
+	})
+
+	document.Find(".colleft").Each(func(index int, selector *goquery.Selection) {
+		t.ImageUrl = "https://tesera.ru/" + selector.Find("img").AttrOr("src", "")
+	})
+
 	document.Find("li").Each(func(index int, selector *goquery.Selection) {
 		switch selector.Find("img").AttrOr("title", "") {
 		case "возраст":
@@ -37,9 +50,6 @@ func (t *InfoFromTesera) TeseraParsing(webUrl string) {
 		}
 	})
 
-	document.Find(".colleft").Each(func(index int, selector *goquery.Selection) {
-		t.ImageUrl = "https://tesera.ru/" + selector.Find("img").AttrOr("src", "")
-	})
 }
 
 //if selector.Find("img").AttrOr("title", "") == "возраст" {
