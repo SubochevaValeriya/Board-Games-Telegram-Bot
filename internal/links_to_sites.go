@@ -24,9 +24,7 @@ type TeseraSearchResponse []struct {
 func (g *GameInfo) TeseraLinkM(s string) {
 	//log.Println(s)
 	response, err := http.Get("https://api.tesera.ru/search/games?query=%" + s + "&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20")
-	if response.Body == nil {
-		return
-	}
+
 	if err != nil {
 		fmt.Print(err.Error())
 		os.Exit(1)
@@ -43,6 +41,9 @@ func (g *GameInfo) TeseraLinkM(s string) {
 	//result, err := googlesearch.Search(nil, "https://www.google.com/search?q="+s+" tesera")
 
 	//log.Println(err)
+	if len(responseObject) == 0 {
+		return
+	}
 	urlStr := "https://tesera.ru/game/" + responseObject[0].Alias + "/"
 
 	if err == nil {
