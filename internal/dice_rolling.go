@@ -16,7 +16,7 @@ type diceRoller interface {
 
 func GifDiceRolling() tgbotapi.FileBytes {
 	//	data, _ := os.ReadFile("dice.gif")
-	response, err := http.Get("https://media.giphy.com/media/l0IukZ771bIyeJcS4/giphy.gif")
+	response, err := http.Get("https://i.pinimg.com/originals/48/ff/32/48ff322720bb1bb377da359adc66b0fb.gif")
 	if err != nil {
 		fmt.Println(err)
 	}
