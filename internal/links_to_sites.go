@@ -32,6 +32,8 @@ func (g *GameInfo) TeseraLinkM(s string) {
 
 	//log.Println(err)
 	if len(responseObject) == 0 {
+		url, _ := url.Parse("https://tesera.ru/")
+		g.TeseraLink = *url
 		return
 	}
 	urlStr := "https://tesera.ru/game/" + responseObject[0].Alias + "/"
