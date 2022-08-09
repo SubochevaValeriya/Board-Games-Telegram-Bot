@@ -81,6 +81,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	if update.Message.Text != "" {
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-		telegram.SendMsg(telegram.ReceiveRequest(bot), bot)
+		telegram.SendMsg(update, bot)
 	}
 }
