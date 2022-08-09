@@ -12,14 +12,14 @@ type diceRoller interface {
 	diceRolling() int
 }
 
-func GifDiceRolling() (tgbotapi.FileBytes, error) {
+func GifDiceRolling() tgbotapi.FileBytes {
 	data, _ := os.ReadFile("dice.gif")
 	gif := tgbotapi.FileBytes{
 		Name:  "dice.gif",
 		Bytes: data,
 	}
 
-	return gif, nil
+	return gif
 }
 
 func diceRolling() int {
