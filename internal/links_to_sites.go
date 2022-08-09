@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"os"
 )
 
 func (g *GameInfo) TeseraLinkM(s string) {
@@ -18,12 +17,12 @@ func (g *GameInfo) TeseraLinkM(s string) {
 
 	if err != nil {
 		fmt.Print(err.Error(), "get")
-		os.Exit(1)
+		//	os.Exit(1)
 	}
 
 	responseData, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	var responseObject TeseraSearchResponse

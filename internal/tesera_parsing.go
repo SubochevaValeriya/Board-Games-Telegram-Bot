@@ -12,7 +12,7 @@ func (t *InfoFromTesera) TeseraParsing(webUrl string) {
 	response, err := http.Get(webUrl)
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	} else if response.StatusCode == 200 {
 		fmt.Println("We can scrape this")
 	} else {
@@ -22,7 +22,7 @@ func (t *InfoFromTesera) TeseraParsing(webUrl string) {
 	document, err := goquery.NewDocumentFromReader(response.Body)
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 
 	document.Find("title").Each(func(index int, selector *goquery.Selection) {
