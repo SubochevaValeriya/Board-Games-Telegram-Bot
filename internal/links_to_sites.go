@@ -23,7 +23,7 @@ type TeseraSearchResponse []struct {
 
 func (g *GameInfo) TeseraLinkM(s string) {
 	//log.Println(s)
-	response, err := http.Get("https://api.tesera.ru/search/games?query=%" + s + "&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20")
+	response, err := http.Get("http://api.tesera.ru/search/games?query=%" + s + "&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20/")
 
 	if err != nil {
 		fmt.Print(err.Error())
