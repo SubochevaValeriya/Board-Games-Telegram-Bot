@@ -6,6 +6,10 @@ import (
 	"pwd/internal"
 )
 
+type sender interface {
+	SendMsg(updates tgbotapi.UpdatesChannel, bot *tgbotapi.BotAPI)
+}
+
 func SendMsg(updates tgbotapi.UpdatesChannel, bot *tgbotapi.BotAPI) {
 	for update := range updates {
 

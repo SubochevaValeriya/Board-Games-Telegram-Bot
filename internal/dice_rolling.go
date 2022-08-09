@@ -8,18 +8,18 @@ import (
 )
 
 type diceRoller interface {
-	GifDiceRolling() tgbotapi.FileBytes
+	GifDiceRolling() (tgbotapi.FileBytes, error)
 	diceRolling() int
 }
 
-func GifDiceRolling() tgbotapi.FileBytes {
+func GifDiceRolling() (tgbotapi.FileBytes, error) {
 	data, _ := os.ReadFile("dice.gif")
 	gif := tgbotapi.FileBytes{
 		Name:  "dice.gif",
 		Bytes: data,
 	}
 
-	return gif
+	return gif, nil
 }
 
 func diceRolling() int {
