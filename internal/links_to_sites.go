@@ -1,21 +1,21 @@
 package internal
 
 import (
-	"fmt"
 	googlesearch "github.com/rocketlaunchr/google-search"
+	"log"
 	"net/url"
 )
 
 func (g *GameInfo) TeseraLinkM(s string) {
-	fmt.Println(s)
+	log.Println(s)
 	result, err := googlesearch.Search(nil, "https://www.google.com/search?q="+s+" tesera")
-	fmt.Println(err)
+	log.Println(err)
 	if err == nil {
 		url, err := url.Parse(result[0].URL)
 		if err == nil {
 			g.TeseraLink = *url
 		} else {
-			fmt.Println(err)
+			log.Println(err)
 		}
 	}
 }
