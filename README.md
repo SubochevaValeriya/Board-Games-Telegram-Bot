@@ -4,6 +4,7 @@ Board Game Telegram Bot written in Go
 Имя бота в Telegram: @BoardGameVBot
 
 Доступные команды:
+
 /start - Приветственное сообщение;
 
 /dice - Бросок кубика D6
