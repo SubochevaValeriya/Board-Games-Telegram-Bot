@@ -31,3 +31,14 @@ type InfoFromTesera struct {
 	RecommendedNumberOfPlayers string
 	GameTime                   string
 }
+
+type TeseraSearchResponse []struct {
+	Type     string `json:"type"`
+	Value    string `json:"value"`
+	Alias    string `json:"alias"`
+	ID       int    `json:"id"`
+	TeseraID int    `json:"teseraId"`
+	Title    string `json:"title"`
+	Title2   string `json:"title2"`
+	PhotoURL string `json:"photoUrl"`
+}

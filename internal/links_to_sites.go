@@ -10,20 +10,10 @@ import (
 	"os"
 )
 
-type TeseraSearchResponse []struct {
-	Type     string `json:"type"`
-	Value    string `json:"value"`
-	Alias    string `json:"alias"`
-	ID       int    `json:"id"`
-	TeseraID int    `json:"teseraId"`
-	Title    string `json:"title"`
-	Title2   string `json:"title2"`
-	PhotoURL string `json:"photoUrl"`
-}
-
 func (g *GameInfo) TeseraLinkM(s string) {
-	//log.Println(s)
-	response, err := http.Get(`https://api.tesera.ru/search/games?query=%" + s + "&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20/"`)
+	log.Println(s)
+	urlSearch := "https://api.tesera.ru/search/games?query=%" + s + "&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20/"
+	response, err := http.Get(urlSearch)
 	//response, err := http.Get("https://api.tesera.ru/search/games?query=%%22%20%D0%B1%D1%8D%D0%BD%D0%B3%20s%20+%20%22&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20/")
 
 	if err != nil {

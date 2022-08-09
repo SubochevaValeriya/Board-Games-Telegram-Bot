@@ -15,6 +15,10 @@ func main() {
 	}
 
 	telegram.SendMsg(telegram.ReceiveRequest(bot), bot)
+	//s := "  Бэнг"
+	//urlSearch := "https://api.tesera.ru/search/games?query=%" + s + "&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20/"
+	//_, err := http.Get("https://api.tesera.ru/search/games?query=%" + s + "&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20/")
+	//fmt.Println(urlSearch, err)
 }
 
 //
