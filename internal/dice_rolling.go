@@ -11,12 +11,6 @@ type diceRoller interface {
 	diceRolling() int
 }
 
-var data []byte{}
-func (d []byte) Write(p []byte) (n int, err error) {
-	d = p
-	return len(p), nil
-}
-
 func GifDiceRolling() tgbotapi.FileBytes {
 	//data, _ := os.ReadFile("dice.gif")
 	//var data []byte
