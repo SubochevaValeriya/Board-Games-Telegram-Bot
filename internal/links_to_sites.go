@@ -1,15 +1,46 @@
 package internal
 
 import (
+	"encoding/json"
+	"fmt"
 	googlesearch "github.com/rocketlaunchr/google-search"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"net/url"
+	"os"
 )
 
+type TeseraSearchResponse []struct {
+	Type     string `json:"type"`
+	Value    string `json:"value"`
+	Alias    string `json:"alias"`
+	ID       int    `json:"id"`
+	TeseraID int    `json:"teseraId"`
+	Title    string `json:"title"`
+	Title2   string `json:"title2"`
+	PhotoURL string `json:"photoUrl"`
+}
+
 func (g *GameInfo) TeseraLinkM(s string) {
-	log.Println(s)
+	//log.Println(s)
+	response, err := http.Get("https://api.tesera.ru/search/games?query=%" + s + "&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20")
+	if err != nil {
+		fmt.Print(err.Error())
+		os.Exit(1)
+	}
+
+	responseData, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var responseObject []TeseraSearchResponse
+	json.Unmarshal(responseData, &responseObject)
+
 	result, err := googlesearch.Search(nil, "https://www.google.com/search?q="+s+" tesera")
-	log.Println(err)
+
+	//log.Println(err)
 	if err == nil {
 		url, err := url.Parse(result[0].URL)
 		if err == nil {
