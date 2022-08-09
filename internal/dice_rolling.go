@@ -3,7 +3,6 @@ package internal
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"math/rand"
-	"os"
 	"time"
 )
 
@@ -12,11 +11,38 @@ type diceRoller interface {
 	diceRolling() int
 }
 
+var data []byte{}
+func (d []byte) Write(p []byte) (n int, err error) {
+	d = p
+	return len(p), nil
+}
+
 func GifDiceRolling() tgbotapi.FileBytes {
-	data, _ := os.ReadFile("dice.gif")
+	//data, _ := os.ReadFile("dice.gif")
+	//var data []byte
+	//response, err := http.Get("http://your.url.com/whatever.html")
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//
+	//defer response.Body.Close()
+	//
+	//// Copy data from the response to standard output
+	//n, err1 := io.Copy(data, response.Body) //use package "io" and "os"
+	//if err != nil {
+	//	fmt.Println(err1)
+	//	return
+	//}
+	//
+	//gif := tgbotapi.FileBytes{
+	//	Name:  "dice.gif",
+	//	Bytes: data,
+	//}
+
 	gif := tgbotapi.FileBytes{
-		Name:  "dice.gif",
-		Bytes: data,
+		Name:  "",
+		Bytes: nil,
 	}
 
 	return gif
