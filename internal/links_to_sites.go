@@ -3,7 +3,6 @@ package internal
 import (
 	"encoding/json"
 	"fmt"
-	googlesearch "github.com/rocketlaunchr/google-search"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -35,14 +34,16 @@ func (g *GameInfo) TeseraLinkM(s string) {
 		log.Fatal(err)
 	}
 
-	var responseObject []TeseraSearchResponse
+	var responseObject TeseraSearchResponse
 	json.Unmarshal(responseData, &responseObject)
 
-	result, err := googlesearch.Search(nil, "https://www.google.com/search?q="+s+" tesera")
+	//result, err := googlesearch.Search(nil, "https://www.google.com/search?q="+s+" tesera")
 
 	//log.Println(err)
+	urlStr := "https://tesera.ru/game/" + responseObject[0].Alias + "/"
+
 	if err == nil {
-		url, err := url.Parse(result[0].URL)
+		url, err := url.Parse(urlStr)
 		if err == nil {
 			g.TeseraLink = *url
 		} else {
