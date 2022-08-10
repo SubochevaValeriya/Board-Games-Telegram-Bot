@@ -10,4 +10,4 @@ Board Game Telegram Bot written in Go
 /dice - Бросок кубика D6
 
 При вводе любого другого сообщения осуществляется поиск настольной игры с данным названием.
-Выводится информация по игре с сайта Tesera.ru, а так же ссылки на Google, Avito, Tesera и Youtube.
+Выводится информация по игре с сайта Tesera.ru, а так же ссылки на Google, Avito, Tesera, Youtube, поиск по БНИ.
