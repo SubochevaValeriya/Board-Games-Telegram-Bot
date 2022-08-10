@@ -14,22 +14,25 @@ type diceRoller interface {
 	diceRolling() int
 }
 
-func GifDiceRolling() tgbotapi.FileBytes {
-	//	data, _ := os.ReadFile("dice.gif")
+func GifDiceRolling() (tgbotapi.FileBytes, error) {
+	//	data, err := os.ReadFile("dice.gif") // from local file
 	response, err := http.Get("https://i.pinimg.com/originals/48/ff/32/48ff322720bb1bb377da359adc66b0fb.gif")
 	if err != nil {
-		fmt.Println(err)
+		return tgbotapi.FileBytes{}, fmt.Errorf("error opening gif: %w", err)
 	}
 	defer response.Body.Close()
 
-	data, _ := io.ReadAll(response.Body)
+	data, err := io.ReadAll(response.Body)
+	if err != nil {
+		return tgbotapi.FileBytes{}, fmt.Errorf("error reading gif body: %w", err)
+	}
 
 	gif := tgbotapi.FileBytes{
 		Name:  "dice.gif",
 		Bytes: data,
 	}
 
-	return gif
+	return gif, err
 }
 
 func diceRolling() int {

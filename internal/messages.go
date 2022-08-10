@@ -25,7 +25,9 @@ func MsgGameInfo(info GameInfo) string {
 <a href="%s">🔍 Поиск игры в Google </a> 
 <a href="%s">♣️ Страница на Тесере </a> 
 <a href="%s">⏯️ Youtube </a> 
-<a href="%s">💸 Искать игру на Авито </a>`,
+<a href="%s">💸 Искать игру на Авито </a>
+<a href="%s">📘 Искать игру в БНИ </a>`,
+
 		info.InfoFromTesera.ImageUrl,
 		info.InfoFromTesera.Name,
 		info.InfoFromTesera.Description,
@@ -37,6 +39,7 @@ func MsgGameInfo(info GameInfo) string {
 		info.TeseraLink.String(),
 		info.YoutubeLink,
 		info.AvitoLink.String(),
+		info.VkLinkBNI.String(),
 	)
 }
 
@@ -53,7 +56,8 @@ func MsgShortInfo(info GameInfo) string {
 
 func MsgRollingDice() string {
 	var msgDice string
-	switch diceRolling() {
+	rollResult := diceRolling()
+	switch rollResult {
 	case 1:
 		msgDice = "Критический провал! Повезёт в следующий раз ;)"
 	case 6:
@@ -62,5 +66,5 @@ func MsgRollingDice() string {
 
 	return fmt.Sprintf(`🎲 Результат броска: %v 
 %s`,
-		diceRolling(), msgDice)
+		rollResult, msgDice)
 }

@@ -13,7 +13,6 @@ func (g *GameInfo) TeseraLinkM(s string) {
 	log.Println(s)
 	urlSearch := "https://api.tesera.ru/search/games?query=" + url.QueryEscape(s) + "&WaitHandle.Handle=%7B%7D"
 	response, err := http.Get(urlSearch)
-	//response, err := http.Get("https://api.tesera.ru/search/games?query=%%22%20%D0%B1%D1%8D%D0%BD%D0%B3%20s%20+%20%22&withAdditions=false&WaitHandle.Handle=%7B%7D%22%20/")
 
 	if err != nil {
 		fmt.Print(err.Error(), "get")
@@ -63,7 +62,7 @@ func (g *GameInfo) AvitoLinkM(s string) {
 }
 
 func (g *GameInfo) VkLinkBNIM(s string) {
-	url, err := url.Parse("https://vk.com/wall-114967596?owners_only=1&q=" + s)
+	url, err := url.Parse("https://vk.com/wall-114967596?owners_only=1&q=" + url.QueryEscape(s))
 	if err == nil {
 		g.VkLinkBNI = *url
 	}
@@ -71,13 +70,6 @@ func (g *GameInfo) VkLinkBNIM(s string) {
 
 func (g *GameInfo) YoutubeLinkM(s string) {
 	g.YoutubeLink = "https://www.youtube.com/results?search_query=" + s
-
-	//func (g *GameInfo) YoutubeLinkM(s string) {
-	//	url, err := url.Parse("https://www.youtube.com/results?search_query=" + s)
-	//	if err == nil {
-	//		g.VkLinkBNI = *url
-	//	}
-
 }
 
 func (g *GameInfo) AllLinks(s string) {
