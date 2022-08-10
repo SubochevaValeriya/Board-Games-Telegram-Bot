@@ -14,8 +14,6 @@ func Consume(message *tgbotapi.Message) (tgbotapi.Chattable, error) {
 	switch message.Text {
 	case "/hello":
 		return tgbotapi.NewMessage(message.Chat.ID, internal.MsgHello), nil
-	//case "/dice":
-	//	return tgbotapi.NewAnimation(message.Chat.ID, internal.GifDiceRolling())
 	default:
 		return answerWithGameInfo(message), nil
 	}
@@ -54,54 +52,3 @@ func answerWithGameInfo(message *tgbotapi.Message) tgbotapi.Chattable {
 	msg.ReplyToMessageID = message.MessageID
 	return msg
 }
-
-//func button() {
-//	var button = tgbotapi.NewInlineKeyboardMarkup(
-//		tgbotapi.NewInlineKeyboardRow(
-//			tgbotapi.NewInlineKeyboardButtonData("Кинуть кубик", "Кинуть кубик")),
-//	)
-//
-//	var button = tgbotapi.NewInlineKeyboardMarkup(
-//		tgbotapi.NewInlineKeyboardRow(
-//			tgbotapi.NewInlineKeyboardButtonData("Кинуть кубик", "Кинуть кубик")),
-//	)
-//
-//	if update.Message.Text == "open" {
-//		msg.ReplyMarkup = button
-//	}
-//
-//	// Send the message.
-//	if _, err = bot.Send(msg); err != nil {
-//		panic(err)
-//	}
-//
-//	if update.CallbackQuery != nil {
-//		// Respond to the callback query, telling Telegram to show the user
-//		// a message with the data received.
-//		callback := tgbotapi.NewCallback(update.CallbackQuery.ID, update.CallbackQuery.Data)
-//		if _, err := bot.Request(callback); err != nil {
-//			panic(err)
-//		}
-//
-//		// And finally, send a message containing the data received.
-//		msg := tgbotapi.NewMessage(update.CallbackQuery.Message.Chat.ID, update.CallbackQuery.Data)
-//		if _, err := bot.Send(msg); err != nil {
-//			panic(err)
-//		}
-//
-//		if update.CallbackQuery != nil {
-//			// Respond to the callback query, telling Telegram to show the user
-//			// a message with the data received.
-//			callback := tgbotapi.NewCallback(update.CallbackQuery.ID, update.CallbackQuery.Data)
-//			if _, err := bot.Request(callback); err != nil {
-//				panic(err)
-//			}
-//
-//			// And finally, send a message containing the data received.
-//			msg := tgbotapi.NewMessage(update.CallbackQuery.Message.Chat.ID, update.CallbackQuery.Data)
-//			if _, err := bot.Send(msg); err != nil {
-//				panic(err)
-//			}
-//		}
-//	}
-//}
