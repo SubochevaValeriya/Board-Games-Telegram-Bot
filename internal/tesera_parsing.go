@@ -51,19 +51,3 @@ func (t *InfoFromTesera) TeseraParsing(webUrl string) {
 	})
 
 }
-
-//if selector.Find("img").AttrOr("title", "") == "возраст" {
-//t.RecommendedAge = selector.Text()
-//}
-//
-//if selector.Find("img").AttrOr("title", "") == "число игроков" {
-//t.RecommendedAge = selector.Text()
-//}
-//
-//if selector.Find("img").AttrOr("title", "") == "рекомендуемое число игроков" {
-//t.RecommendedAge = selector.Text()
-//}
-//
-//if selector.Find("img").AttrOr("title", "") == "время партии" {
-//t.RecommendedAge = selector.Text()
-//}
