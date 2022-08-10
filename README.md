@@ -1,5 +1,5 @@
 # Board-Game-Telegram-Bot
-![Image alt](https://github.com/SubochevaValeriya/Board-Game-Telegram-Bot/raw/main/internal/image.png)
+![Image alt](https://github.com/SubochevaValeriya/Board-Game-Telegram-Bot/raw/main/internal/logo.png)
 Board Game Telegram Bot written in Go
 
 Имя бота в Telegram: @BoardGameVBot
