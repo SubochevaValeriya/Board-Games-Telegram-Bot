@@ -21,5 +21,7 @@ go.work
 #
 .gif
 .txt
-.idea
+/.idea
 copy_main.go
+/dice.gif
+/dice-roll.gif
