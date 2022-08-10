@@ -15,7 +15,7 @@ type diceRoller interface {
 }
 
 func GifDiceRolling() (tgbotapi.FileBytes, error) {
-	//	data, err := os.ReadFile("dice.gif") // from local file
+	//	data, err := os.ReadFile("dice.gif") // from local gif file
 	response, err := http.Get("https://i.pinimg.com/originals/48/ff/32/48ff322720bb1bb377da359adc66b0fb.gif")
 	if err != nil {
 		return tgbotapi.FileBytes{}, fmt.Errorf("error opening gif: %w", err)
