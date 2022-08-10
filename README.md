@@ -1,4 +1,4 @@
-# Board-Game-Telegram-Bot
+# Board-Games-Telegram-Bot
 ![Image alt](https://github.com/SubochevaValeriya/Board-Game-Telegram-Bot/raw/main/internal/logo.png)
 
 ## Board Games Telegram Bot written in Go and deployed using Vercel (serverless function, webhooks)
