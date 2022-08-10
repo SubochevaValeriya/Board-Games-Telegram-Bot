@@ -3,7 +3,7 @@
 
 ## Board Games Telegram Bot written in Go and deployed using Vercel (serverless function, webhooks)
 
-**Имя бота в Telegram:** @BoardGameVBot
+**Имя бота в Telegram:** ```@BoardGameVBot```
 
 ### Доступные команды:
 
