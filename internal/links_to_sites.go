@@ -45,6 +45,7 @@ func (g *GameInfo) TeseraLinkM(s string) {
 			log.Println(err)
 		}
 	}
+	g.Name = responseObject[0].Value
 }
 
 func (g *GameInfo) GoogleLinkM(s string) {
@@ -86,6 +87,6 @@ func (g *GameInfo) AllLinks(s string) {
 	g.AvitoLinkM(s)
 	g.VkLinkBNIM(s)
 	g.YoutubeLinkM(s)
-	g.BGGLinkM(s)
+	g.BGGLinkM(g.Name)
 	g.InfoFromTesera.TeseraParsing(g.TeseraLink.String())
 }
