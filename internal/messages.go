@@ -24,6 +24,7 @@ func MsgGameInfo(info GameInfo) string {
 
 <a href="%s">🔍 Поиск игры в Google </a> 
 <a href="%s">♣️ Страница на Тесере </a> 
+<a href="%s">🕶️ Страница на BGG </a> 
 <a href="%s">⏯️ Youtube </a> 
 <a href="%s">💸 Искать игру на Авито </a>
 <a href="%s">📘 Искать игру в БНИ </a>`,
@@ -37,6 +38,7 @@ func MsgGameInfo(info GameInfo) string {
 		info.InfoFromTesera.RecommendedNumberOfPlayers,
 		info.GoogleLink.String(),
 		info.TeseraLink.String(),
+		info.BGGLink,
 		info.YoutubeLink,
 		info.AvitoLink.String(),
 		info.VkLinkBNI.String(),
@@ -56,12 +58,12 @@ func MsgShortInfo(info GameInfo) string {
 
 func MsgRollingDice() string {
 	var msgDice string
-	rollResult := diceRolling()
+	rollResult := random(1, 6)
 	switch rollResult {
 	case 1:
 		msgDice = "Критический провал! Повезёт в следующий раз ;)"
 	case 6:
-		msgDice = "А ты хорош 🍀"
+		msgDice = "Удача на твоей стороне 🍀"
 	}
 
 	return fmt.Sprintf(`🎲 Результат броска: %v 

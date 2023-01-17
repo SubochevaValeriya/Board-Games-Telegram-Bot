@@ -14,6 +14,17 @@ func Consume(message *tgbotapi.Message) (tgbotapi.Chattable, error) {
 	switch message.Text {
 	case "/hello":
 		return tgbotapi.NewMessage(message.Chat.ID, internal.MsgHello), nil
+case "/advise":
+		var name string
+		var err error
+		for {
+			name, err = internal.RandomGame(internal.ConnectToBGGClient())
+			if err == nil {
+				break
+			}
+		}
+		message.Text = name
+		fallthrough
 	default:
 		return answerWithGameInfo(message), nil
 	}
@@ -31,6 +42,7 @@ func answerWithGameInfo(message *tgbotapi.Message) tgbotapi.Chattable {
 		AvitoLink:   url.URL{},
 		YoutubeLink: "",
 		GoogleLink:  url.URL{},
+		BGGLink:     "",
 		InfoFromTesera: struct {
 			Name                       string
 			Description                string

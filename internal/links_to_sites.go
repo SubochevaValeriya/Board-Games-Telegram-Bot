@@ -72,6 +72,14 @@ func (g *GameInfo) YoutubeLinkM(s string) {
 	g.YoutubeLink = "https://www.youtube.com/results?search_query=" + s
 }
 
+func (g *GameInfo) BGGLinkM(s string) {
+
+	url, err := FindTheGame(ConnectToBGGClient(), s)
+	if err == nil {
+		g.BGGLink = url
+	}
+}
+
 func (g *GameInfo) AllLinks(s string) {
 	g.GoogleLinkM(s)
 	g.TeseraLinkM(s)
