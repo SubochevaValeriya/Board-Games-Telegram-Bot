@@ -86,5 +86,6 @@ func (g *GameInfo) AllLinks(s string) {
 	g.AvitoLinkM(s)
 	g.VkLinkBNIM(s)
 	g.YoutubeLinkM(s)
+	g.BGGLinkM(s)
 	g.InfoFromTesera.TeseraParsing(g.TeseraLink.String())
 }
