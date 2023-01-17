@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/fzerorubigd/gobgg"
+	"net/url"
 	"strings"
 )
 
@@ -39,6 +40,7 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 	}
 
 	var result gobgg.ThingResult
+	fmt.Println(results)
 	for _, result = range results {
 		if result.Type != gobgg.BoardGameType {
 			return "", errors.New("it's not board game")
@@ -50,6 +52,20 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 
 		if result.UsersOwned < 100 {
 			return "", errors.New("not famous")
+		}
+
+		g := GameInfo{
+			Name:           result.Name,
+			TeseraLink:     url.URL{},
+			VkLinkBNI:      url.URL{},
+			AvitoLink:      url.URL{},
+			YoutubeLink:    "",
+			GoogleLink:     url.URL{},
+			BGGLink:        "",
+			InfoFromTesera: InfoFromTesera{},
+		}
+		if g.TeseraLinkM(result.Name) != nil {
+			return "", errors.New("no info on Tesera")
 		}
 	}
 

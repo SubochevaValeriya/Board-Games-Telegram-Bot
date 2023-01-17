@@ -9,7 +9,7 @@ import (
 	"net/url"
 )
 
-func (g *GameInfo) TeseraLinkM(s string) {
+func (g *GameInfo) TeseraLinkM(s string) error {
 	log.Println(s)
 	urlSearch := "https://api.tesera.ru/search/games?query=" + url.QueryEscape(s) + "&WaitHandle.Handle=%7B%7D"
 	response, err := http.Get(urlSearch)
@@ -22,6 +22,7 @@ func (g *GameInfo) TeseraLinkM(s string) {
 	responseData, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Println(err)
+		return err
 	}
 
 	var responseObject TeseraSearchResponse
@@ -33,7 +34,7 @@ func (g *GameInfo) TeseraLinkM(s string) {
 	if len(responseObject) == 0 {
 		url, _ := url.Parse("https://tesera.ru/")
 		g.TeseraLink = *url
-		return
+		return nil
 	}
 	urlStr := "https://tesera.ru/game/" + responseObject[0].Alias + "/"
 
@@ -43,10 +44,12 @@ func (g *GameInfo) TeseraLinkM(s string) {
 			g.TeseraLink = *url
 		} else {
 			log.Println(err)
+			return err
 		}
 	}
 	g.Name = responseObject[0].Value
 	log.Println(s, g.Name)
+	return nil
 }
 
 func (g *GameInfo) GoogleLinkM(s string) {
