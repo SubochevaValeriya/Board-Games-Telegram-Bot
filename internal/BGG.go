@@ -40,7 +40,6 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 	}
 
 	var result gobgg.ThingResult
-	fmt.Println(results)
 	for _, result = range results {
 		if result.Type != gobgg.BoardGameType {
 			return "", errors.New("it's not board game")

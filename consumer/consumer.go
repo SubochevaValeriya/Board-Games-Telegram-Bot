@@ -26,8 +26,10 @@ func Consume(message *tgbotapi.Message) (tgbotapi.Chattable, error) {
 			}
 		}
 		message.Text = name
+		log.Println(message.Text)
 		fallthrough
 	default:
+		log.Println(message.Text)
 		return answerWithGameInfo(message), nil
 	}
 
