@@ -46,6 +46,7 @@ func (g *GameInfo) TeseraLinkM(s string) {
 		}
 	}
 	g.Name = responseObject[0].Value
+	log.Println(s, g.Name)
 }
 
 func (g *GameInfo) GoogleLinkM(s string) {
