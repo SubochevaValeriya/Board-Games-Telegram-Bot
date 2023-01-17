@@ -23,6 +23,7 @@ func FindTheGame(bggClient *gobgg.BGG, name string) (string, error) {
 	}
 	for _, result := range results {
 		if strings.ToLower(result.Name) == strings.ToLower(name) {
+			fmt.Println(result)
 			return fmt.Sprintf("%s%v", BGGLinkToGame, result.ID), nil
 		}
 	}
