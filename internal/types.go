@@ -19,6 +19,7 @@ type GameInfo struct {
 	AvitoLink      url.URL
 	YoutubeLink    string
 	GoogleLink     url.URL
+	BGGLink        string
 	InfoFromTesera InfoFromTesera
 }
 
