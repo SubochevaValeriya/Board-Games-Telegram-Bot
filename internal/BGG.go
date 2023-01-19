@@ -39,9 +39,11 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	log.Println(results)
 
 	var result gobgg.ThingResult
 	for _, result = range results {
+		log.Println(result.Name)
 		if result.Type != gobgg.BoardGameType {
 			return "", errors.New("it's not board game")
 		}
