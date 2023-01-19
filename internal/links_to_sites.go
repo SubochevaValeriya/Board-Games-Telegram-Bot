@@ -33,6 +33,7 @@ func (g *GameInfo) TeseraLinkM(s string) error {
 
 	//log.Println(err)
 	if len(responseObject) == 0 {
+		log.Println("here")
 		url, _ := url.Parse("https://tesera.ru/")
 		g.TeseraLink = *url
 		return errors.New("not found")
