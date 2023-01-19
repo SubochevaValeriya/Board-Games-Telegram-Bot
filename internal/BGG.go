@@ -42,7 +42,7 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 	log.Println(results)
 
 	if len(results) == 0 {
-		return "", errors.New("not found")
+		return "", errors.New("game not found")
 	}
 
 	var result gobgg.ThingResult
