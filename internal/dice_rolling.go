@@ -11,7 +11,7 @@ import (
 
 type diceRoller interface {
 	GifDiceRolling() (tgbotapi.FileBytes, error)
-	diceRolling() int
+	random(min int, max int) int
 }
 
 func GifDiceRolling() (tgbotapi.FileBytes, error) {
@@ -35,11 +35,9 @@ func GifDiceRolling() (tgbotapi.FileBytes, error) {
 	return gif, err
 }
 
-func diceRolling() int {
+func random(min int, max int) int {
 	rand.Seed(time.Now().UnixNano())
 	var result int
-	min := 1
-	max := 6
 	result = rand.Intn(max-min+1) + min
 
 	return result

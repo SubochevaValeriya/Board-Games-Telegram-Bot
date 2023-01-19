@@ -2,6 +2,7 @@ package internal
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -9,19 +10,20 @@ import (
 	"net/url"
 )
 
-func (g *GameInfo) TeseraLinkM(s string) {
-	log.Println(s)
+func (g *GameInfo) TeseraLinkM(s string) error {
 	urlSearch := "https://api.tesera.ru/search/games?query=" + url.QueryEscape(s) + "&WaitHandle.Handle=%7B%7D"
 	response, err := http.Get(urlSearch)
 
 	if err != nil {
 		fmt.Print(err.Error(), "get")
+		return err
 		//	os.Exit(1)
 	}
 
 	responseData, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Println(err)
+		return err
 	}
 
 	var responseObject TeseraSearchResponse
@@ -31,9 +33,10 @@ func (g *GameInfo) TeseraLinkM(s string) {
 
 	//log.Println(err)
 	if len(responseObject) == 0 {
+		log.Println("here")
 		url, _ := url.Parse("https://tesera.ru/")
 		g.TeseraLink = *url
-		return
+		return errors.New("not found")
 	}
 	urlStr := "https://tesera.ru/game/" + responseObject[0].Alias + "/"
 
@@ -43,8 +46,12 @@ func (g *GameInfo) TeseraLinkM(s string) {
 			g.TeseraLink = *url
 		} else {
 			log.Println(err)
+			return err
 		}
 	}
+	g.Name = responseObject[0].Value
+	log.Println(s, g.Name)
+	return nil
 }
 
 func (g *GameInfo) GoogleLinkM(s string) {
@@ -70,6 +77,14 @@ func (g *GameInfo) VkLinkBNIM(s string) {
 
 func (g *GameInfo) YoutubeLinkM(s string) {
 	g.YoutubeLink = "https://www.youtube.com/results?search_query=" + s
+}
+
+func (g *GameInfo) BGGLinkM(s string) {
+
+	url, err := FindTheGame(ConnectToBGGClient(), s)
+	if err == nil {
+		g.BGGLink = url
+	}
 }
 
 func (g *GameInfo) AllLinks(s string) {

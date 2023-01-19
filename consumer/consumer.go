@@ -3,6 +3,7 @@ package consumer
 import (
 	"errors"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"log"
 	"net/url"
 	"pwd/internal"
 )
@@ -14,7 +15,21 @@ func Consume(message *tgbotapi.Message) (tgbotapi.Chattable, error) {
 	switch message.Text {
 	case "/hello":
 		return tgbotapi.NewMessage(message.Chat.ID, internal.MsgHello), nil
+	case "/advise":
+		var name string
+		var err error
+		for {
+			name, err = internal.RandomGame(internal.ConnectToBGGClient())
+			log.Println(name, err, "try")
+			if err == nil {
+				break
+			}
+		}
+		message.Text = name
+		log.Println(message.Text)
+		fallthrough
 	default:
+		log.Println(message.Text)
 		return answerWithGameInfo(message), nil
 	}
 
@@ -31,6 +46,7 @@ func answerWithGameInfo(message *tgbotapi.Message) tgbotapi.Chattable {
 		AvitoLink:   url.URL{},
 		YoutubeLink: "",
 		GoogleLink:  url.URL{},
+		BGGLink:     "",
 		InfoFromTesera: struct {
 			Name                       string
 			Description                string
