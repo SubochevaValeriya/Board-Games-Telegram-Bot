@@ -16,6 +16,7 @@ func (g *GameInfo) TeseraLinkM(s string) error {
 
 	if err != nil {
 		fmt.Print(err.Error(), "get")
+		return err
 		//	os.Exit(1)
 	}
 

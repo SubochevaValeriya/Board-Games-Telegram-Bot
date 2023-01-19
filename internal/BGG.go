@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/fzerorubigd/gobgg"
+	"log"
 	"net/url"
 	"strings"
 )
@@ -65,6 +66,7 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 			InfoFromTesera: InfoFromTesera{},
 		}
 
+		log.Println(result.Name)
 		if g.TeseraLinkM(result.Name) != nil {
 			return "", errors.New("no info on Tesera")
 		}
