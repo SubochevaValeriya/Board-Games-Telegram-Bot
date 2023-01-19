@@ -34,7 +34,7 @@ func (g *GameInfo) TeseraLinkM(s string) error {
 	if len(responseObject) == 0 {
 		url, _ := url.Parse("https://tesera.ru/")
 		g.TeseraLink = *url
-		return nil
+		return err
 	}
 	urlStr := "https://tesera.ru/game/" + responseObject[0].Alias + "/"
 
@@ -91,6 +91,5 @@ func (g *GameInfo) AllLinks(s string) {
 	g.AvitoLinkM(s)
 	g.VkLinkBNIM(s)
 	g.YoutubeLinkM(s)
-	g.BGGLinkM(g.Name)
 	g.InfoFromTesera.TeseraParsing(g.TeseraLink.String())
 }
