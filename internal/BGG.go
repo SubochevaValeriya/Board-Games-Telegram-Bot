@@ -41,6 +41,10 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 	}
 	log.Println(results)
 
+	if len(results) == 0 {
+		return "", errors.New("not found")
+	}
+
 	var result gobgg.ThingResult
 	for _, result = range results {
 		log.Println(result.Name)
