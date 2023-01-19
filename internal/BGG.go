@@ -25,7 +25,6 @@ func FindTheGame(bggClient *gobgg.BGG, name string) (string, error) {
 	}
 	for _, result := range results {
 		if strings.ToLower(result.Name) == strings.ToLower(name) {
-			fmt.Println(result)
 			return fmt.Sprintf("%s%v", BGGLinkToGame, result.ID), nil
 		}
 	}
@@ -34,7 +33,7 @@ func FindTheGame(bggClient *gobgg.BGG, name string) (string, error) {
 }
 
 func RandomGame(bggClient *gobgg.BGG) (string, error) {
-	id := random(1, 120000)
+	id := random(1, 320000)
 	results, err := bggClient.GetThings(context.TODO(), gobgg.GetThingIDs(int64(id)))
 
 	if err != nil {
@@ -69,6 +68,7 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 		log.Println(result.Name)
 		if g.TeseraLinkM(result.Name) != nil {
 			return "", errors.New("no info on Tesera")
+		} else {
 		}
 	}
 

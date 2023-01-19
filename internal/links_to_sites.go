@@ -2,6 +2,7 @@ package internal
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -10,7 +11,6 @@ import (
 )
 
 func (g *GameInfo) TeseraLinkM(s string) error {
-	log.Println(s)
 	urlSearch := "https://api.tesera.ru/search/games?query=" + url.QueryEscape(s) + "&WaitHandle.Handle=%7B%7D"
 	response, err := http.Get(urlSearch)
 
@@ -35,7 +35,7 @@ func (g *GameInfo) TeseraLinkM(s string) error {
 	if len(responseObject) == 0 {
 		url, _ := url.Parse("https://tesera.ru/")
 		g.TeseraLink = *url
-		return err
+		return errors.New("not found")
 	}
 	urlStr := "https://tesera.ru/game/" + responseObject[0].Alias + "/"
 
