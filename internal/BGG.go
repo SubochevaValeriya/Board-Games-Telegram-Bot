@@ -28,6 +28,7 @@ func FindTheGame(bggClient *gobgg.BGG, name string) (string, error) {
 			return fmt.Sprintf("%s%v", BGGLinkToGame, result.ID), nil
 		}
 	}
+
 	return "", gameNotFound
 }
 
@@ -63,6 +64,7 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 			BGGLink:        "",
 			InfoFromTesera: InfoFromTesera{},
 		}
+
 		if g.TeseraLinkM(result.Name) != nil {
 			return "", errors.New("no info on Tesera")
 		}
