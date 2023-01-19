@@ -20,7 +20,7 @@ func Consume(message *tgbotapi.Message) (tgbotapi.Chattable, error) {
 		var err error
 		for {
 			name, err = internal.RandomGame(internal.ConnectToBGGClient())
-			log.Println(name, err)
+			log.Println(name, err, "try")
 			if err == nil {
 				break
 			}
