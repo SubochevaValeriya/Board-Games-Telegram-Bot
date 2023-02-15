@@ -89,9 +89,16 @@ func (g *GameInfo) BGGLinkM(s string) {
 
 func (g *GameInfo) AllLinks(s string) {
 	g.GoogleLinkM(s)
-	g.TeseraLinkM(s)
+
+	if g.TeseraLinkM(s) == nil {
+		g.Info.TeseraParsing(g.TeseraLink.String())
+	} else {
+		id, err := GameSearch(s)
+		if err != nil {
+			g.Info.BGGParsing(id)
+		}
+	}
 	g.AvitoLinkM(s)
 	g.VkLinkBNIM(s)
 	g.YoutubeLinkM(s)
-	g.InfoFromTesera.TeseraParsing(g.TeseraLink.String())
 }

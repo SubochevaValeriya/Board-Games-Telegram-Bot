@@ -47,19 +47,21 @@ func answerWithGameInfo(message *tgbotapi.Message) tgbotapi.Chattable {
 		YoutubeLink: "",
 		GoogleLink:  url.URL{},
 		BGGLink:     "",
-		InfoFromTesera: struct {
-			Name                       string
-			Description                string
-			ImageUrl                   string
-			RecommendedAge             string
-			NumberOfPlayers            string
-			RecommendedNumberOfPlayers string
-			GameTime                   string
-		}{Name: "", Description: "", ImageUrl: "", RecommendedAge: "", NumberOfPlayers: "", RecommendedNumberOfPlayers: "", GameTime: ""},
+		Info: internal.Info{
+			Name:                       "",
+			YearPublished:              0,
+			Description:                "",
+			Image:                      "",
+			MinAge:                     "",
+			NumberOfPlayers:            "",
+			RecommendedNumberOfPlayers: "",
+			PlayTime:                   "",
+			AverageRate:                0,
+		},
 	}
 	gameInfo.AllLinks(gameInfo.Name)
 	var msg tgbotapi.MessageConfig
-	if gameInfo.InfoFromTesera.RecommendedAge != "" {
+	if gameInfo.Info.MinAge != "" {
 		msg = tgbotapi.NewMessage(message.Chat.ID, internal.MsgGameInfo(gameInfo))
 	} else {
 		msg = tgbotapi.NewMessage(message.Chat.ID, internal.MsgGameNotFound+internal.MsgShortInfo(gameInfo))
