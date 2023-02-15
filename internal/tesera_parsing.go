@@ -8,46 +8,50 @@ import (
 import "log"
 import "fmt"
 
-func (t *InfoFromTesera) TeseraParsing(webUrl string) {
+func (i *Info) TeseraParsing(webUrl string) error {
 	response, err := http.Get(webUrl)
 
 	if err != nil {
 		log.Println(err)
+		return err
 	} else if response.StatusCode == 200 {
 		fmt.Println("We can scrape this")
 	} else {
-		log.Fatalln("Do not scrape this")
+		log.Println("Do not scrape this")
+		return err
 	}
 
 	document, err := goquery.NewDocumentFromReader(response.Body)
 
 	if err != nil {
 		log.Println(err)
+		return err
 	}
 
 	document.Find("title").Each(func(index int, selector *goquery.Selection) {
-		t.Name = strings.Replace(selector.Text(), "| Tesera", "", -1)
+		i.Name = strings.Replace(selector.Text(), "| Tesera", "", -1)
 	})
 
 	document.Find(".raw_text_output").Each(func(index int, selector *goquery.Selection) {
-		t.Description = strings.TrimSpace(selector.Text())
+		i.Description = strings.TrimSpace(selector.Text())
 	})
 
 	document.Find(".colleft").Each(func(index int, selector *goquery.Selection) {
-		t.ImageUrl = "https://tesera.ru/" + selector.Find("img").AttrOr("src", "")
+		i.Image = "https://tesera.ru/" + selector.Find("img").AttrOr("src", "")
 	})
 
 	document.Find("li").Each(func(index int, selector *goquery.Selection) {
 		switch selector.Find("img").AttrOr("title", "") {
 		case "возраст":
-			t.RecommendedAge = selector.Text()
+			i.MinAge = selector.Text()
 		case "число игроков":
-			t.NumberOfPlayers = selector.Text()
+			i.NumberOfPlayers = selector.Text()
 		case "рекомендуемое число игроков":
-			t.RecommendedNumberOfPlayers = selector.Text()
+			i.RecommendedNumberOfPlayers = selector.Text()
 		case "время партии":
-			t.GameTime = selector.Text()
+			i.PlayTime = selector.Text()
 		}
 	})
 
+	return nil
 }

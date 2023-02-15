@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -20,57 +21,50 @@ func ConnectToBGGClient() *gobgg.BGG {
 	return gobgg.NewBGGClient()
 }
 
-func GameSearch(name string) (string, error) {
+func GameSearch(name string) (int, error) {
 	response, err := http.Get("https://boardgamegeek.com/geeksearch.php?action=search&objecttype=boardgame&q=" + url.QueryEscape(name))
 
 	if err != nil {
 		log.Println(err)
+		return 0, err
 	} else if response.StatusCode == 200 {
 		fmt.Println("We can scrape this")
 	} else {
 		log.Fatalln("Do not scrape this")
+		return 0, err
 	}
 
 	document, err := goquery.NewDocumentFromReader(response.Body)
 
 	if err != nil {
 		log.Println(err)
+		return 0, err
 	}
 
+	var id int
+
 	document.Find("div").Each(func(index int, selector *goquery.Selection) {
-		//fmt.Println(selector.Text())
 		if selector.AttrOr("id", "") == "results_objectname1" {
-			fmt.Println(selector.Find("a").AttrOr("href", ""))
-			//fmt.Println(selector.Text())
+			s := strings.TrimLeft(selector.Find("a").AttrOr("href", ""), "boardgame/")
+			idStr, _, _ := strings.Cut(s, "/")
+			id, err = strconv.Atoi(idStr)
+			if err != nil {
+				log.Println(err)
+			}
+
+			bgg := ConnectToBGGClient()
+			results, _ := bgg.GetThings(context.Background(), gobgg.GetThingIDs(int64(id)))
+			fmt.Println(results[0].Image)
+
 		}
 	})
-	//	Each(func(index int, selector *goquery.Selection) {
-	//		selector.Find("img").AttrOr("title", "")
-	//		{
-	//case "возраст":
-	//	t.RecommendedAge = selector.Text()
-	//	case "число игроков":
-	//	t.NumberOfPlayers = selector.Text()
-	//	case "рекомендуемое число игроков":
-	//	t.RecommendedNumberOfPlayers = selector.Text()
-	//	case "время партии":
-	//	t.GameTime = selector.Text()
-	//	}
-	//	fmt.Println(selector.Text())
-	//t.Name = strings.Replace(selector.Text(), "| Tesera", "", -1)
-	//})
 
-	//results, err := bggClient.Search(context.TODO(), name)
-	//if err != nil {
-	//	return "", err
-	//}
-	//for _, result := range results {
-	//	if strings.ToLower(result.Name) == strings.ToLower(name) {
-	//		return fmt.Sprintf("%s%v", BGGLinkToGame, result.ID), nil
-	//	}
-	//}
+	if id == 0 {
+		log.Println("game not found")
+		return id, errors.New("game not found")
+	}
 
-	return "", gameNotFound
+	return id, nil
 }
 
 func FindTheGame(bggClient *gobgg.BGG, name string) (string, error) {
@@ -115,22 +109,22 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 			return "", errors.New("not famous")
 		}
 
-		g := GameInfo{
-			Name:           result.Name,
-			TeseraLink:     url.URL{},
-			VkLinkBNI:      url.URL{},
-			AvitoLink:      url.URL{},
-			YoutubeLink:    "",
-			GoogleLink:     url.URL{},
-			BGGLink:        "",
-			InfoFromTesera: InfoFromTesera{},
-		}
+		//g := GameInfo{
+		//	Name:           result.Name,
+		//	TeseraLink:     url.URL{},
+		//	VkLinkBNI:      url.URL{},
+		//	AvitoLink:      url.URL{},
+		//	YoutubeLink:    "",
+		//	GoogleLink:     url.URL{},
+		//	BGGLink:        "",
+		//	Info: Info{},
+		//}
 
 		log.Println(result.Name)
-		if g.TeseraLinkM(result.Name) != nil {
-			return "", errors.New("no info on Tesera")
-		} else {
-		}
+		//if g.TeseraLinkM(result.Name) != nil {
+		//	return "", errors.New("no info on Tesera")
+		//} else {
+		//}
 	}
 
 	return result.Name, nil
