@@ -83,12 +83,9 @@ func FindTheGame(bggClient *gobgg.BGG, name string) (string, error) {
 func RandomGame(bggClient *gobgg.BGG) (string, error) {
 	id := random(1, 320000)
 	results, err := bggClient.GetThings(context.TODO(), gobgg.GetThingIDs(int64(id)))
-
 	if err != nil {
 		return "", err
 	}
-	log.Println(results)
-
 	if len(results) == 0 {
 		return "", errors.New("game not found")
 	}
@@ -108,22 +105,7 @@ func RandomGame(bggClient *gobgg.BGG) (string, error) {
 			return "", errors.New("not famous")
 		}
 
-		//g := GameInfo{
-		//	Name:           result.Name,
-		//	TeseraLink:     url.URL{},
-		//	VkLinkBNI:      url.URL{},
-		//	AvitoLink:      url.URL{},
-		//	YoutubeLink:    "",
-		//	GoogleLink:     url.URL{},
-		//	BGGLink:        "",
-		//	Info: Info{},
-		//}
-
 		log.Println(result.Name)
-		//if g.TeseraLinkM(result.Name) != nil {
-		//	return "", errors.New("no info on Tesera")
-		//} else {
-		//}
 	}
 
 	return result.Name, nil
