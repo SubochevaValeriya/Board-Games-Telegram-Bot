@@ -81,9 +81,9 @@ func (g *GameInfo) YoutubeLinkM(s string) {
 
 func (g *GameInfo) BGGLinkM(s string) {
 
-	url, err := FindTheGame(ConnectToBGGClient(), s)
+	id, err := GameSearch(s)
 	if err == nil {
-		g.BGGLink = url
+		g.BGGLink = fmt.Sprintf("%s%v", BGGLinkToGame, id)
 	}
 }
 
@@ -98,6 +98,7 @@ func (g *GameInfo) AllLinks(s string) {
 			g.Info.BGGParsing(id)
 		}
 	}
+	g.BGGLinkM(s)
 	g.AvitoLinkM(s)
 	g.VkLinkBNIM(s)
 	g.YoutubeLinkM(s)
