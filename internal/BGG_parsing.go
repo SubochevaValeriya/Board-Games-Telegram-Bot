@@ -10,6 +10,9 @@ import "fmt"
 func (i *Info) BGGParsing(id int) error {
 	bgg := ConnectToBGGClient()
 	results, err := bgg.GetThings(context.Background(), gobgg.GetThingIDs(int64(id)))
+	if len(results) == 0 {
+		return err
+	}
 	data, err := json.Marshal(results[0])
 	if err != nil {
 		return err
