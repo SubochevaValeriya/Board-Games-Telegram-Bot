@@ -63,7 +63,6 @@ func GameSearch(name string) (int, error) {
 		log.Println("game not found")
 		return id, errors.New("game not found")
 	}
-
 	return id, nil
 }
 
