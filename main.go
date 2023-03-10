@@ -2,31 +2,18 @@ package main
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"os"
 	"pwd/clients/telegram"
 )
 
 func main() {
-	//token := mustToken()
+	// The code implements deployment using serverless function and webhooks (pls see api/handler.go)
+	// In the main function I left the method using the long polling (all that is needed is to add a loop and change the Update type to UpdateChannels in the SendMsg function (sender.go))
 
-	//bot, err := tgbotapi.NewBotAPI(os.Getenv("TELEGRAM_APITOKEN"))
-	bot, err := tgbotapi.NewBotAPI("5501151328:AAFVVneFN6O4SLihdwM3qdOTxHmY8mtvNtQ")
+	bot, err := tgbotapi.NewBotAPI(os.Getenv("BOT_TOKEN"))
 	if err != nil {
 		panic(err)
 	}
 
 	telegram.SendMsg(telegram.ReceiveRequest(bot), bot)
 }
-
-//
-//func mustToken()
-//string{
-//token := flag.String("botToken", "", "token for access telegram Board Game bot")
-//
-//flag.Parse()
-//
-//if *token == ""{
-//log.Fatal("token is not specified")
-//}
-//
-//return *token
-//}
