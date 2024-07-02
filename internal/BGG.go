@@ -55,7 +55,6 @@ func GameSearch(name string) (int, error) {
 			bgg := ConnectToBGGClient()
 			results, _ := bgg.GetThings(context.Background(), gobgg.GetThingIDs(int64(id)))
 			fmt.Println(results[0].Image)
-
 		}
 	})
 

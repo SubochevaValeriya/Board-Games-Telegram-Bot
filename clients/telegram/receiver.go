@@ -8,14 +8,14 @@ type receiver interface {
 	ReceiveRequest(bot *tgbotapi.BotAPI) tgbotapi.UpdatesChannel
 }
 
-func ReceiveRequest(bot *tgbotapi.BotAPI) tgbotapi.UpdatesChannel {
-	bot.Debug = true
+func (s *Service) ReceiveRequest() tgbotapi.UpdatesChannel {
+	s.bot.Debug = true
 
 	updateConfig := tgbotapi.NewUpdate(0)
 
 	updateConfig.Timeout = 30
 
-	updates := bot.GetUpdatesChan(updateConfig)
+	updates := s.bot.GetUpdatesChan(updateConfig)
 
 	return updates
 }

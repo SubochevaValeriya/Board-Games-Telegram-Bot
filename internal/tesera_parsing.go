@@ -10,7 +10,6 @@ import "fmt"
 
 func (i *Info) TeseraParsing(webUrl string) error {
 	response, err := http.Get(webUrl)
-
 	if err != nil {
 		log.Println(err)
 		return err
@@ -55,3 +54,17 @@ func (i *Info) TeseraParsing(webUrl string) error {
 
 	return nil
 }
+
+//func ()  {
+//	client := http.Client{}
+//	params := url.Values{}
+//	params.Add("param1", "value1")
+//	params.Add("param2", "value2")
+//	resp, err := client.Get("https://api.tesera.ru/games")
+//	if err != nil {
+//		fmt.Println(err)
+//		return
+//	}
+//	defer resp.Body.Close()
+//	io.Copy(os.Stdout, resp.Body)
+//}
