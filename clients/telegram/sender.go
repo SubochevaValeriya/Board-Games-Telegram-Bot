@@ -1,35 +1,55 @@
 package telegram
 
 import (
+	"context"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log"
-	"pwd/consumer"
-	"pwd/internal"
 )
 
-type sender interface {
-	SendMsg(update tgbotapi.Update, bot *tgbotapi.BotAPI)
+type Service struct {
+	consumerService consumerService
+	bot             *tgbotapi.BotAPI
 }
 
-func SendMsg(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
-	if update.Message.Text == "/dice" {
-		gif, err := internal.GifDiceRolling()
+func New(
+	consumerService consumerService,
+	bot *tgbotapi.BotAPI,
+) *Service {
+	return &Service{
+		consumerService: consumerService,
+		bot:             bot,
+	}
+}
+
+func (s *Service) SendMsg(ctx context.Context, update tgbotapi.Update) {
+	var err error
+	defer func() {
 		if err != nil {
 			log.Println(err)
 		}
-		msgAnim := tgbotapi.NewAnimation(update.Message.Chat.ID, gif)
-		if _, err := bot.Send(msgAnim); err != nil {
-			log.Println(err)
-		}
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, internal.MsgRollingDice())
-		if _, err := bot.Send(msg); err != nil {
-			log.Println(err)
-		}
+	}()
+	var msg tgbotapi.MessageConfig
+	msg.ReplyMarkup = keyboard
+
+	if update.CallbackQuery != nil {
+		msg, err = s.consumerService.ConsumeCallback(ctx, update.CallbackQuery)
 	} else {
-		if msg, err := consumer.Consume(update.Message); err == nil {
-			if _, err := bot.Send(msg); err != nil {
-				log.Println(err)
-			}
-		}
+		msg, err = s.consumerService.Consume(ctx, update.Message)
+	}
+
+	log.Println(msg)
+	_, err = s.bot.Send(msg)
+}
+
+var keyboard = tgbotapi.NewReplyKeyboard(
+	tgbotapi.NewKeyboardButtonRow(
+		tgbotapi.NewKeyboardButton("Во что поиграть?"),
+		tgbotapi.NewKeyboardButton("Бросить кубик!"),
+	),
+)
+
+func (s *Service) SendMsgWithoutWebhook(ctx context.Context, updates tgbotapi.UpdatesChannel) {
+	for update := range updates {
+		s.SendMsg(ctx, update)
 	}
 }

@@ -15,7 +15,7 @@ import (
 
 const BGGLinkToGame = "https://boardgamegeek.com/boardgame/"
 
-var gameNotFound = errors.New("game not found")
+var GameNotFound = errors.New("game not found")
 
 func ConnectToBGGClient() *gobgg.BGG {
 	return gobgg.NewBGGClient()
@@ -55,7 +55,6 @@ func GameSearch(name string) (int, error) {
 			bgg := ConnectToBGGClient()
 			results, _ := bgg.GetThings(context.Background(), gobgg.GetThingIDs(int64(id)))
 			fmt.Println(results[0].Image)
-
 		}
 	})
 
@@ -77,7 +76,7 @@ func FindTheGame(bggClient *gobgg.BGG, name string) (string, error) {
 		}
 	}
 
-	return "", gameNotFound
+	return "", GameNotFound
 }
 
 func RandomGame(bggClient *gobgg.BGG) (string, error) {

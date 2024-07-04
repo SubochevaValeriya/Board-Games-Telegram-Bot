@@ -1,22 +1,40 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"pwd/clients/telegram"
+	"pwd/internal/resources"
 )
 
 var bot *tgbotapi.BotAPI
+var telegramService *telegram.Service
 
 func init() {
-	var err error
-	bot, err = tgbotapi.NewBotAPI(os.Getenv("BOT_TOKEN"))
+	bot, telegramService = resources.InitBot()
+
+	webhookURL := os.Getenv("WEBHOOK_URL")
+	if webhookURL == "" {
+		panic("can't get webhook url")
+	}
+
+	parsedWebhookURL, err := url.Parse(webhookURL)
 	if err != nil {
-		log.Panic(err)
+		panic(fmt.Errorf("can't parse webhook url: %v", err))
+	}
+
+	_, err = bot.Request(tgbotapi.WebhookConfig{
+		URL: parsedWebhookURL,
+	})
+	if err != nil {
+		panic(fmt.Errorf("can't delete webhook: %v", err))
 	}
 }
 
@@ -40,6 +58,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	if update.Message.Text != "" {
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-		telegram.SendMsg(update, bot)
+		telegramService.SendMsg(context.Background(), update)
 	}
 }

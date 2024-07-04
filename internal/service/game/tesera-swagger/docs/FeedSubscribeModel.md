@@ -1,0 +1,11 @@
+# FeedSubscribeModel
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**ObjectType** | **string** | Subscribe object | [optional] [default to null]
+**Alias** | **string** | Subscribe object id | [optional] [default to null]
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
