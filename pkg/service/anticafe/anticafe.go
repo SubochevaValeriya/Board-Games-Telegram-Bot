@@ -8,7 +8,7 @@ import (
 	"gopkg.in/Iwark/spreadsheet.v2"
 	"log"
 	"os"
-	swagger "pwd/internal/service/game/tesera-swagger"
+	swagger "pwd/pkg/service/game/tesera-swagger"
 	"strings"
 	"sync"
 )

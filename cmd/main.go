@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github.com/joho/godotenv"
-	"pwd/internal/resources"
+	"pwd/pkg/resources"
 )
 
 const envFile = ".env-test"

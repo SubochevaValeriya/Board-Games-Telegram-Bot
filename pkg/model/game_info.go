@@ -1,8 +1,8 @@
 package model
 
 import (
-	swagger "pwd/internal/service/game/tesera-swagger"
-	"pwd/internal/service/links"
+	swagger "pwd/pkg/service/game/tesera-swagger"
+	"pwd/pkg/service/links"
 )
 
 type linkFetcher interface {
