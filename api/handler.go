@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -10,20 +11,14 @@ import (
 	"net/url"
 	"os"
 	"pwd/clients/telegram"
+	"pwd/internal/resources"
 )
 
 var bot *tgbotapi.BotAPI
+var telegramService *telegram.Service
 
 func init() {
-	var err error
-	token := os.Getenv("BOT_TOKEN")
-	if token == "" {
-		panic("can't get bot token")
-	}
-	bot, err = tgbotapi.NewBotAPI(token)
-	if err != nil {
-		panic(fmt.Errorf("can't start bot: %v", err))
-	}
+	bot, telegramService = resources.InitBot()
 
 	webhookURL := os.Getenv("WEBHOOK_URL")
 	if webhookURL == "" {
@@ -63,6 +58,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	if update.Message.Text != "" {
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-		telegram.SendMsg(update, bot)
+		telegramService.SendMsg(context.Background(), update)
 	}
 }

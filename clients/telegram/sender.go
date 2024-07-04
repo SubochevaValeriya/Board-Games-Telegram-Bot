@@ -21,10 +21,6 @@ func New(
 	}
 }
 
-type sender interface {
-	SendMsg(update tgbotapi.Update, bot *tgbotapi.BotAPI)
-}
-
 func (s *Service) SendMsg(ctx context.Context, update tgbotapi.Update) {
 	var err error
 	defer func() {
