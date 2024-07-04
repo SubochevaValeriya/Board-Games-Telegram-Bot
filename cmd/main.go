@@ -9,7 +9,7 @@ import (
 const envFile = ".env-test"
 
 func main() {
-	// The code implements deployment using serverless function and webhooks (pls see api/handler.go)
+	// The code implements deployment using serverless function and webhooks (pls see api/index.go)
 	// In the main function I left the method using the long polling (all that is needed is to add a loop and change the Update type to UpdateChannels in the SendMsg function (sender.go))
 
 	if err := godotenv.Load(envFile); err != nil {
