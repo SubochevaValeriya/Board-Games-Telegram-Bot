@@ -18,6 +18,8 @@ const (
 	msgUserRequestTimeOfPlay = `
 Выбранное время игры: [%d].
 `
+	msgUserRequestNotFound = "Простите, нам не удалось найти игру, подходящую под ваши параметры. Попробуйте их изменить."
+
 	msgOneMoreGame         = "Посоветуй ещё игру!"
 	msgAvailableInAnticafe = `
 Наличие в антикафе:`

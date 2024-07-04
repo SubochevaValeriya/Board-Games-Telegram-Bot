@@ -220,7 +220,7 @@ func (s *Service) gameAdviceMessage(ctx context.Context, numberOfPlayers int64, 
 	}
 
 	if title == "" {
-		text += "not found"
+		text += msgUserRequestNotFound
 	} else {
 		text += s.gameInfoMessage(ctx, title)
 	}

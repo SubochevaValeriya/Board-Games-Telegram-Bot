@@ -4,12 +4,13 @@ import (
 	"context"
 	"fmt"
 	"github.com/SevereCloud/vksdk/api"
-	"golang.org/x/oauth2/google"
+	"golang.org/x/oauth2/jwt"
 	"gopkg.in/Iwark/spreadsheet.v2"
 	"log"
 	"os"
 	swagger "pwd/internal/service/game/tesera-swagger"
 	"strings"
+	"sync"
 )
 
 const (
@@ -56,15 +57,29 @@ func New() *Service {
 	// Create a context
 	ctx := context.Background()
 
-	data, err := os.ReadFile(confFile)
+	//data, err := os.ReadFile(confFile)
 
-	if err != nil {
-		log.Fatalf("Unable to parse client secret file to config: %v", err)
+	//if err != nil {
+	//	log.Fatalf("Unable to parse client secret file to config: %v", err)
+	//}
+
+	//conf, err := google.JWTConfigFromJSON(data, spreadsheet.Scope)
+	//if err != nil {
+	//	log.Fatalf("Unable to parse client secret file to config: %v", err)
+	//}
+
+	googleTokenEnv := os.Getenv("GOOGLE_TOKEN")
+	if googleTokenEnv == "" {
+		log.Fatalf("Unable to get google token from environment variables")
 	}
 
-	conf, err := google.JWTConfigFromJSON(data, spreadsheet.Scope)
-	if err != nil {
-		log.Fatalf("Unable to parse client secret file to config: %v", err)
+	privateKey := []byte(googleTokenEnv)
+	conf := jwt.Config{
+		Email:        "boardgame@sturdy-device-427311-d5.iam.gserviceaccount.com",
+		PrivateKey:   privateKey,
+		PrivateKeyID: "ef9a60f3df13a7c61899ed5b3138669c4c40358c",
+		Scopes:       []string{spreadsheet.Scope},
+		TokenURL:     "https://oauth2.googleapis.com/token",
 	}
 
 	client := conf.Client(ctx)
@@ -136,31 +151,40 @@ func isGameIsFounded(text string, game swagger.GameInfo) bool {
 
 func (s *Service) IsGameInStockInAnticafe(game swagger.GameInfo) []AnticafeGameInStock {
 	isInStockAnticafe := []AnticafeGameInStock{}
+	wg := sync.WaitGroup{}
+	wg.Add(len(spreadSheetAnticafe))
+	mu := sync.Mutex{}
 	for _, conf := range spreadSheetAnticafe {
-		var isInStock bool
-		var err error
-		if conf.googleSheetsInfo != nil {
-			isInStock, err = s.isGameInStockGoogleSheets(*conf.googleSheetsInfo, game)
-			if err != nil {
-				log.Println("failed to check game in stock", err)
+		go func(conf anticafeConf) {
+			var isInStock bool
+			var err error
+			if conf.googleSheetsInfo != nil {
+				isInStock, err = s.isGameInStockGoogleSheets(*conf.googleSheetsInfo, game)
+				if err != nil {
+					log.Println("failed to check game in stock", err)
+				}
 			}
-		}
 
-		if conf.vkTopicInfo != nil {
-			isInStock, err = s.isGameInStockVKTopic(*conf.vkTopicInfo, game)
-			if err != nil {
-				log.Println("failed to check game in stock", err)
+			if conf.vkTopicInfo != nil {
+				isInStock, err = s.isGameInStockVKTopic(*conf.vkTopicInfo, game)
+				if err != nil {
+					log.Println("failed to check game in stock", err)
+				}
 			}
-		}
 
-		if isInStock {
-			isInStockAnticafe = append(isInStockAnticafe, AnticafeGameInStock{
-				AnticafeName: conf.anticafeName,
-				IsInStock:    true,
-				Link:         conf.link,
-			})
-		}
+			if isInStock {
+				mu.Lock()
+				isInStockAnticafe = append(isInStockAnticafe, AnticafeGameInStock{
+					AnticafeName: conf.anticafeName,
+					IsInStock:    true,
+					Link:         conf.link,
+				})
+				mu.Unlock()
+			}
+			wg.Done()
+		}(conf)
 	}
+	wg.Wait()
 
 	return isInStockAnticafe
 }
