@@ -2,7 +2,7 @@ package links
 
 import (
 	"context"
-	swagger "pwd/internal/service/game/tesera-swagger"
+	swagger "pwd/pkg/service/game/tesera-swagger"
 )
 
 type gameInfoService interface {

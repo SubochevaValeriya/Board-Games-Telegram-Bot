@@ -5,11 +5,11 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"os"
 	"pwd/clients/telegram"
-	"pwd/internal/consumer"
-	"pwd/internal/service/anticafe"
-	"pwd/internal/service/dice"
-	"pwd/internal/service/game"
-	"pwd/internal/service/links"
+	"pwd/pkg/consumer"
+	"pwd/pkg/service/anticafe"
+	"pwd/pkg/service/dice"
+	"pwd/pkg/service/game"
+	"pwd/pkg/service/links"
 )
 
 func InitBot() (*tgbotapi.BotAPI, *telegram.Service) {

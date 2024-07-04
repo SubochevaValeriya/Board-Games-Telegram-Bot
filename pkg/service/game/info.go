@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/antihax/optional"
-	"pwd/internal/service/dice"
-	swagger "pwd/internal/service/game/tesera-swagger"
+	"pwd/pkg/service/dice"
+	swagger "pwd/pkg/service/game/tesera-swagger"
 	"time"
 )
 

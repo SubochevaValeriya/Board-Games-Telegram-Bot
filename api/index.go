@@ -11,7 +11,7 @@ import (
 	"net/url"
 	"os"
 	"pwd/clients/telegram"
-	"pwd/internal/resources"
+	"pwd/pkg/resources"
 )
 
 var bot *tgbotapi.BotAPI

@@ -2,8 +2,8 @@ package consumer
 
 import (
 	"fmt"
-	"pwd/internal/model"
-	"pwd/internal/service/dice"
+	"pwd/pkg/model"
+	"pwd/pkg/service/dice"
 )
 
 const (

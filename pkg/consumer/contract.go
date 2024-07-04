@@ -3,9 +3,9 @@ package consumer
 import (
 	"context"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"pwd/internal/service/anticafe"
-	swagger "pwd/internal/service/game/tesera-swagger"
-	"pwd/internal/service/links"
+	"pwd/pkg/service/anticafe"
+	swagger "pwd/pkg/service/game/tesera-swagger"
+	"pwd/pkg/service/links"
 )
 
 type gameInfoService interface {
