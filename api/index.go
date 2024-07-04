@@ -52,9 +52,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if update.Message.Text != "" {
+	if update.Message != nil {
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-
-		telegramService.SendMsg(context.Background(), update)
 	}
+	if update.CallbackQuery != nil {
+		log.Printf("[%s] %s", update.CallbackQuery.From.UserName, update.CallbackQuery.Data)
+	}
+
+	telegramService.SendMsg(context.Background(), update)
 }
