@@ -33,7 +33,9 @@ func (s *Service) SendMsg(ctx context.Context, update tgbotapi.Update) {
 
 	if update.CallbackQuery != nil {
 		msg, err = s.consumerService.ConsumeCallback(ctx, update.CallbackQuery)
-	} else {
+	}
+
+	if update.Message != nil {
 		msg, err = s.consumerService.Consume(ctx, update.Message)
 	}
 
